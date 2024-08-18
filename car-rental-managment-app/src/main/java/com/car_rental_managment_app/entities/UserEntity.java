@@ -5,6 +5,8 @@ import com.car_rental_managment_app.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,24 +15,27 @@ import lombok.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "car_id")
-    Long id;
+    @Column(name = "user_id")
+    private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "lastName")
-    String lastName;
+    private String lastName;
 
     @Column(name = "email")
-    String email;
+    private String email;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     @Column(name = "age")
-    Integer age;
+    private Integer age;
 
     @Column(name = "role")
-    Role role;
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userEntity")
+    private List<ReservationEntity> reservationEntities;
 }
