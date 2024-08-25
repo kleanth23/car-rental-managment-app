@@ -38,7 +38,7 @@ public class CarEntity {
     private String licensePlate;
 
     @Column(name = "rentalPerDay")
-    private String rentalPerDay;
+    private Double rentalPerDay;
 
     @Column(name = "engine")
     private Engine engine;

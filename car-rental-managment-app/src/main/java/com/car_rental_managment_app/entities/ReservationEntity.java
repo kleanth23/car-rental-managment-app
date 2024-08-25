@@ -19,14 +19,20 @@ public class ReservationEntity {
     @Column(name = "reservation_id")
     private Long id;
 
-    @Column(name = "reservation_date")
-    private Date reservationDate;
+    @Column(name = "booking_date")
+    private Date bookingDate;
 
     @Column(name = "start_date")
     private Date startDate;
 
     @Column(name = "end_date")
     private Date endDate;
+
+    @Column(name = "reserved_by")
+    private String reservedBy;
+
+    @Column(name = "total_amount")
+    private Double totalAmount;
 
 
     @JsonIgnore

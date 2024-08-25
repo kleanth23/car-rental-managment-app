@@ -47,7 +47,7 @@ public class CarService {
             updatedCar.setLicensePlate(car.getLicensePlate());
             updatedCar.setRentalPerDay(car.getRentalPerDay());
             updatedCar.setEngine(car.getEngine());
-
+            updatedCar.setAvailable(car.isAvailable());
             return carRepository.saveAndFlush(updatedCar);
         }
         return null;

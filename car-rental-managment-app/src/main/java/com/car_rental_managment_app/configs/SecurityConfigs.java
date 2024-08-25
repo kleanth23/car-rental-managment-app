@@ -23,7 +23,7 @@ public class SecurityConfigs {
                 .cors().and() // Enable CORS if needed globally
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/users/**"// Permit all requests under the API context
+                                "/api/users/**", "/api/reservations/**"// Permit all requests under the API context
                         ).permitAll() // Permit all requests to these patterns
                         .anyRequest().authenticated() // All other requests require authentication
                 )
