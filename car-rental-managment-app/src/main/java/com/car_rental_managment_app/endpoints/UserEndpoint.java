@@ -4,6 +4,7 @@ import com.car_rental_managment_app.entities.CarEntity;
 import com.car_rental_managment_app.entities.UserEntity;
 import com.car_rental_managment_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,18 @@ public class UserEndpoint {
     public ResponseEntity<UserEntity> createUser (@PathVariable Long branchId, @RequestBody UserEntity user){
         UserEntity createdUser = userService.saveUser(user, branchId);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/registerUser")
+    public ResponseEntity<UserEntity> registerUser(@RequestBody UserEntity user){
+        userService.registerUser(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/loginUser")
+    public ResponseEntity<Optional<UserEntity>> loginUser (@Param(value = "email") String email, @Param(value = "password") String password ){
+        Optional<UserEntity> optionalUserEntity = userService.loginUser(email,password);
+        return new ResponseEntity<>(optionalUserEntity,HttpStatus.OK);
     }
 
 

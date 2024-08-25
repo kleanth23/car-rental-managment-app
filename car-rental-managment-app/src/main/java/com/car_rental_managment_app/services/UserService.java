@@ -7,7 +7,10 @@ import com.car_rental_managment_app.repository.BranchRepository;
 import com.car_rental_managment_app.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,15 @@ public class UserService {
 
     @Autowired UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, BranchRepository branchRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.branchRepository = branchRepository;
+    }
+
     public UserEntity saveUser (UserEntity user, Long branchId){
         Optional<BranchEntity> branchEntity = branchRepository.findById(branchId);
         if (branchEntity.isEmpty()){
@@ -25,6 +37,29 @@ public class UserService {
         }
         user.setBranchEntity(branchEntity.get());
         return userRepository.save(user);
+    }
+
+    public void registerUser(UserEntity user){
+        if (userRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new RuntimeException("Email is already in use");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public Optional<UserEntity> findUserByEmail (String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<UserEntity> loginUser (String email, String password){
+        Optional<UserEntity> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()){
+            UserEntity user = userOptional.get();
+            if (passwordEncoder.matches(password, user.getPassword())){
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
     }
 
     public Optional<UserEntity> findById(Long userId){
