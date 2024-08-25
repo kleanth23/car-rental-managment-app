@@ -2,6 +2,7 @@ package com.car_rental_managment_app.entities;
 
 
 import com.car_rental_managment_app.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,4 +39,9 @@ public class UserEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userEntity")
     private List<ReservationEntity> reservationEntities;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="branch_id")
+    private BranchEntity branchEntity;
 }

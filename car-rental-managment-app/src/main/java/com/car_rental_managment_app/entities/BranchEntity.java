@@ -36,4 +36,7 @@ public class BranchEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "branchEntity")
     private List<CarEntity> carEntities;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "branchEntity")
+    private List<UserEntity> userEntities;
+
 }

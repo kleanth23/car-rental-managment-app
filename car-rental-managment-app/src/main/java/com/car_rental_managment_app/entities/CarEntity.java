@@ -1,5 +1,6 @@
 package com.car_rental_managment_app.entities;
 
+import com.car_rental_managment_app.enums.CarStatus;
 import com.car_rental_managment_app.enums.Colour;
 import com.car_rental_managment_app.enums.Engine;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,8 @@ public class CarEntity {
     @Column(name = "isAvailable")
     private boolean isAvailable;
 
+    @Column(name = "carStatus")
+    private CarStatus carStatus;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)

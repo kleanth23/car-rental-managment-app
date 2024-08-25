@@ -1,5 +1,6 @@
 package com.car_rental_managment_app.endpoints;
 
+import com.car_rental_managment_app.entities.CarEntity;
 import com.car_rental_managment_app.entities.UserEntity;
 import com.car_rental_managment_app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -15,9 +17,9 @@ import java.util.Optional;
 public class UserEndpoint {
     @Autowired UserService userService;
 
-    @PostMapping("/createUser")
-    public ResponseEntity<UserEntity> createUser (@RequestBody UserEntity user){
-        UserEntity createdUser = userService.saveUser(user);
+    @PostMapping("/createUser/{branchId}")
+    public ResponseEntity<UserEntity> createUser (@PathVariable Long branchId, @RequestBody UserEntity user){
+        UserEntity createdUser = userService.saveUser(user, branchId);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -34,10 +36,14 @@ public class UserEndpoint {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-
-    @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        userService.deleteUserById(userId);
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/getUserByBranchId/{branchId}")
+    public ResponseEntity<List<UserEntity>> getUserByBranchId(@PathVariable Long branchId){
+        List<UserEntity> getUserByBranchId = userService.getUserByBranchId(branchId);
+        return new ResponseEntity<>(getUserByBranchId,HttpStatus.OK);
     }
 }
