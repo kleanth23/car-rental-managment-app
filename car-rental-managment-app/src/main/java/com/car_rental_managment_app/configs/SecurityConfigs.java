@@ -12,22 +12,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfigs {
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // Disable CSRF for API endpoints
-                .cors().and() // Enable CORS if needed globally
+                .csrf().disable()
+                .cors().and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/users/**", "/api/reservations/**"// Permit all requests under the API context
-                        ).permitAll() // Permit all requests to these patterns
-                        .anyRequest().authenticated() // All other requests require authentication
+                                "/api/users/**", "/api/reservations/**", "/api/branches/**", "/api/cars/**", "/api/rentals/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
                 )
-                .httpBasic(); // If using HTTP Basic authentication, otherwise configure as needed
+                .httpBasic();
         return http.build();
     }
 }

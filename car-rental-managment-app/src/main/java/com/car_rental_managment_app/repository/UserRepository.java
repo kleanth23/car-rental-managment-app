@@ -1,7 +1,6 @@
 package com.car_rental_managment_app.repository;
 
 import com.car_rental_managment_app.entities.UserEntity;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
