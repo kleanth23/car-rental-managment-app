@@ -30,13 +30,13 @@ public class CarEndpoint {
 
     @GetMapping("/getCarById/{carId}")
     public ResponseEntity<Optional<CarEntity>> getCarById(@PathVariable Long carId) {
-        Optional<CarEntity> returnedCar = carService.getCarById(carId);
+        Optional<CarEntity> returnedCar = carService.getCar(carId);
         return new ResponseEntity<>(returnedCar, HttpStatus.OK);
     }
 
     @PostMapping("/updateCar/{carId}")
     public ResponseEntity<CarEntity> updateCar(@PathVariable Long carId, @RequestBody CarEntity car) {
-        CarEntity updateCar = carService.updateCar(carId, car);
+        CarEntity updateCar = carService.updateCar(car, carId);
         return new ResponseEntity<>(updateCar, HttpStatus.OK);
     }
 

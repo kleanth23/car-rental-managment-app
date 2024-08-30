@@ -2,10 +2,12 @@ package com.car_rental_managment_app.services;
 
 import com.car_rental_managment_app.entities.BranchEntity;
 import com.car_rental_managment_app.entities.CarEntity;
+import com.car_rental_managment_app.entities.ImageEntity;
 import com.car_rental_managment_app.enums.CarStatus;
 import com.car_rental_managment_app.exceptions.UserNotFoundException;
 import com.car_rental_managment_app.repository.BranchRepository;
 import com.car_rental_managment_app.repository.CarRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class CarService {
     @Autowired
     BranchRepository branchRepository;
 
+    @Autowired ImageService imageService;
+
     public CarEntity createCar(CarEntity car, Long branchId) {
         try {
             car.setCarStatus(CarStatus.AVAILABLE);
@@ -30,6 +34,7 @@ public class CarService {
             }
             car.setBranchEntity(branchEntity.get());
             car.setReservationEntities(car.getReservationEntities());
+            setCarDocumentImage(car);
             return carRepository.save(car);
         } catch (Exception e) {
             throw new RuntimeException("Error creating car: " + e.getMessage(), e);
@@ -44,31 +49,24 @@ public class CarService {
         }
     }
 
-    public CarEntity updateCar(Long carId, CarEntity car) {
-        try {
-            Optional<CarEntity> carEntity = carRepository.findById(carId);
-            if (carEntity.isPresent()) {
-                CarEntity updatedCar = getCarEntity(car, carEntity);
-                return carRepository.saveAndFlush(updatedCar);
-            } else {
-                throw new UserNotFoundException("Car with given id does not exist");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error updating car: " + e.getMessage(), e);
+    public CarEntity updateCar(CarEntity car, Long carId) {
+        if (!carRepository.existsById(carId)) {
+            throw new EntityNotFoundException("You are not able to update  this car because it does not exist");
         }
+        Optional<CarEntity> carEntity = carRepository.findById(carId);
+
+        carEntity.get().setModel(carEntity.get().getModel());
+        carEntity.get().setColour(carEntity.get().getColour());
+        carEntity.get().setBrand(carEntity.get().getBrand());
+        carEntity.get().setRentalPerDay(carEntity.get().getRentalPerDay());
+        carEntity.get().setProductionYear(carEntity.get().getProductionYear());
+
+        return carRepository.save(carEntity.get());
     }
 
-    private static CarEntity getCarEntity(CarEntity car, Optional<CarEntity> carEntity) {
-        CarEntity updatedCar = carEntity.get();
-        updatedCar.setBrand(car.getBrand());
-        updatedCar.setColour(car.getColour());
-        updatedCar.setModel(car.getModel());
-        updatedCar.setProductionYear(car.getProductionYear());
-        updatedCar.setLicensePlate(car.getLicensePlate());
-        updatedCar.setRentalPerDay(car.getRentalPerDay());
-        updatedCar.setEngine(car.getEngine());
-        updatedCar.setAvailable(car.isAvailable());
-        return updatedCar;
+    public Optional<CarEntity> getCar(Long carId) {
+        return Optional.of(carRepository.findById(carId)).orElseThrow(() -> new EntityNotFoundException("Car not found with this :" + carId));
+
     }
 
     public void deleteCar(Long carId) {
@@ -81,13 +79,17 @@ public class CarService {
         }
     }
 
-    public List<CarEntity> getCarsByBranchId(Long branchId) throws RuntimeException {
-        try {
-            return branchRepository.findById(branchId)
-                    .map(BranchEntity::getCarEntities)
-                    .orElseThrow(() -> new UserNotFoundException("Branch with given id does not exist"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving cars by branch id: " + e.getMessage(), e);
+    public List<CarEntity> getCarsByBranchId(Long branchId) {
+        return branchRepository.findById(branchId).map(BranchEntity::getCarEntities)
+                .orElseThrow(() -> new EntityNotFoundException("Car not found"));
+    }
+
+
+    private void setCarDocumentImage(CarEntity car) {
+        ImageEntity image = car.getImage();
+        if (image != null) {
+            image.setUrl(imageService.generateImageAbsolutePath());
         }
     }
+
 }

@@ -21,17 +21,15 @@ import lombok.NoArgsConstructor;
 public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
+    @Column(name = "image_id")
+    private Long imageId;
+    @Column(name = "file_name", unique = true)
     private String fileName;
+    @Column(name = "original_file_name")
     private String originalFileName;
 
     @Transient
     private String url;
-
-    public String getUrl() {
-        return url;
-    }
 
     public void setUrl(String baseUrl) {
         this.url = baseUrl + fileName;

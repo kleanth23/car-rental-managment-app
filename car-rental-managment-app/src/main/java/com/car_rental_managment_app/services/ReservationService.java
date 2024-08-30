@@ -48,7 +48,7 @@ public class ReservationService {
             if (carEntity.getCarStatus().equals(CarStatus.AVAILABLE)) {
                 carEntity.setCarStatus(CarStatus.BOOKED); // Update the status of the car
                 carEntity.setAvailable(false);
-                reservation.setReservedBy(userEntity.get().getName());
+                reservation.setReservedBy(userEntity.get().getFirstName());
                 reservation.setCarEntity(carEntity);
                 reservation.setUserEntity(userEntity.get());
                 reservation.setBookingDate(new Date()); // Assuming this sets the current date as booking date

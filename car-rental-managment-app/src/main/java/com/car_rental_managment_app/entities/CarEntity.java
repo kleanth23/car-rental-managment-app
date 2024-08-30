@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class CarEntity {
     private String brand;
 
     @Column(name = "colour")
-    private Colour colour;
+    private String colour;
 
     @Column(name = "model")
     private String model;
@@ -51,7 +52,7 @@ public class CarEntity {
     private Double rentalPerDay;
 
     @Column(name = "engine")
-    private Engine engine;
+    private String engine;
 
     @Column(name = "isAvailable")
     private boolean isAvailable;
@@ -66,4 +67,8 @@ public class CarEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "carEntity")
     private List<ReservationEntity> reservationEntities;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_id")
+    private ImageEntity image;
 }

@@ -95,11 +95,12 @@ public class UserService {
             Optional<UserEntity> userEntity = userRepository.findById(userId);
             if (userEntity.isPresent()) {
                 UserEntity updatedUser = userEntity.get();
-                updatedUser.setName(user.getName());
+                updatedUser.setFirstName(user.getFirstName());
                 updatedUser.setLastName(user.getLastName());
                 updatedUser.setEmail(user.getEmail());
                 updatedUser.setPassword(user.getPassword());
                 updatedUser.setAge(user.getAge());
+                updatedUser.setAddress(user.getAddress());
 //                updatedUser.setRole(user.getRole());
                 return userRepository.save(updatedUser);
             } else {

@@ -31,8 +31,8 @@ public class UserEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
 
     @Column(name = "lastName")
     private String lastName;
@@ -49,6 +49,9 @@ public class UserEntity {
     @Column(name = "role")
     private Role role;
 
+    @Column(name = "address")
+    private String address;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userEntity")
     private List<ReservationEntity> reservationEntities;
 
@@ -56,4 +59,9 @@ public class UserEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "branch_id")
     private BranchEntity branchEntity;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rental_id")
+    private RentalEntity rentalEntity;
 }
