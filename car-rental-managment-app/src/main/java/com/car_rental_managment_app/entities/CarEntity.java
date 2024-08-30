@@ -30,7 +30,7 @@ public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "car_id")
-    private Long id;
+    private Long carId;
 
     @Column(name = "brand")
     private String brand;

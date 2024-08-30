@@ -21,11 +21,10 @@ import java.util.Optional;
 public class BranchEndpoint {
     @Autowired
     BranchService branchService;
-
-    @PostMapping("/createBranch")
-    public ResponseEntity<BranchEntity> createBranch(@RequestBody BranchEntity branch) {
-        BranchEntity createdBranch = branchService.createBranch(branch);
-        return new ResponseEntity<>(createdBranch, HttpStatus.CREATED);
+    @PostMapping("/createBranch/{rentalId}")
+    public ResponseEntity<BranchEntity> createBranches(@RequestBody BranchEntity branch,@PathVariable Long rentalId) {
+        BranchEntity createBranch = branchService.createBranch(branch,rentalId);
+        return new ResponseEntity<>(createBranch, HttpStatus.CREATED);
     }
 
     @GetMapping("/getBranchById/{branchId}")

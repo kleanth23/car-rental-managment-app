@@ -25,7 +25,7 @@ public class ReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "reservation_id")
-    private Long id;
+    private Long reservationId;
 
     @Column(name = "booking_date")
     private Date bookingDate;

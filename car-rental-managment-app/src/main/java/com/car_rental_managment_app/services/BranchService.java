@@ -5,6 +5,7 @@ import com.car_rental_managment_app.entities.RentalEntity;
 import com.car_rental_managment_app.exceptions.BranchNotFoundException;
 import com.car_rental_managment_app.repository.BranchRepository;
 import com.car_rental_managment_app.repository.RentalRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,13 @@ public class BranchService {
     @Autowired
     RentalRepository rentalRepository;
 
-    public BranchEntity createBranch(BranchEntity branchEntity) {
-        try {
-            return branchRepository.save(branchEntity);
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating branch: " + e.getMessage(), e);
-        }
+    public BranchEntity createBranch(BranchEntity branch, Long rentalId) {
+        RentalEntity rental = rentalRepository.findById(rentalId)
+                .orElseThrow(() -> new EntityNotFoundException("Rental not found with ID: " + rentalId));
+
+        branch.setRentalEntity(rental);
+        rental.getBranchEntities().add(branch);
+        return branchRepository.save(branch);
     }
 
     public Optional<BranchEntity> getBranchById(Long branchId) {

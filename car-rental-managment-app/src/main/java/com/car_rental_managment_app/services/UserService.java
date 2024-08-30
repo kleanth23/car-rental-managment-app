@@ -100,7 +100,7 @@ public class UserService {
                 updatedUser.setEmail(user.getEmail());
                 updatedUser.setPassword(user.getPassword());
                 updatedUser.setAge(user.getAge());
-                updatedUser.setRole(user.getRole());
+//                updatedUser.setRole(user.getRole());
                 return userRepository.save(updatedUser);
             } else {
                 throw new UserNotFoundException("User with given id does not exist");

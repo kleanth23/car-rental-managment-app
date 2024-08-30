@@ -24,7 +24,7 @@ public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "rental_id")
-    private Long id;
+    private Long rentalId;
 
     @Column(name = "name")
     private String name;
