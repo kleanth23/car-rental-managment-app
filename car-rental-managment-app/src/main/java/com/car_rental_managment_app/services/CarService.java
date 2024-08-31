@@ -27,7 +27,7 @@ public class CarService {
 
     public CarEntity createCar(CarEntity car, Long branchId) {
         try {
-            car.setCarStatus(CarStatus.AVAILABLE);
+            car.setStatus(CarStatus.AVAILABLE);
             Optional<BranchEntity> branchEntity = branchRepository.findById(branchId);
             if (branchEntity.isEmpty()) {
                 throw new UserNotFoundException("Branch with given id does not exist");
@@ -55,11 +55,12 @@ public class CarService {
         }
         Optional<CarEntity> carEntity = carRepository.findById(carId);
 
-        carEntity.get().setModel(carEntity.get().getModel());
-        carEntity.get().setColour(carEntity.get().getColour());
-        carEntity.get().setBrand(carEntity.get().getBrand());
-        carEntity.get().setRentalPerDay(carEntity.get().getRentalPerDay());
-        carEntity.get().setProductionYear(carEntity.get().getProductionYear());
+        carEntity.get().setModel(car.getModel());
+        carEntity.get().setColour(car.getColour());
+        carEntity.get().setBrand(car.getBrand());
+        carEntity.get().setRentalPerDay(car.getRentalPerDay());
+        carEntity.get().setProductionYear(car.getProductionYear());
+        carEntity.get().setStatus(car.getStatus());
 
         return carRepository.save(carEntity.get());
     }

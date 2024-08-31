@@ -57,8 +57,8 @@ public class CarEntity {
     @Column(name = "isAvailable")
     private boolean isAvailable;
 
-    @Column(name = "carStatus")
-    private CarStatus carStatus;
+    @Column(name = "status")
+    private CarStatus status;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)

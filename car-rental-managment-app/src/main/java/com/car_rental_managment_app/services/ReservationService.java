@@ -45,8 +45,8 @@ public class ReservationService {
             }
 
             CarEntity carEntity = carEntityOptional.get();
-            if (carEntity.getCarStatus().equals(CarStatus.AVAILABLE)) {
-                carEntity.setCarStatus(CarStatus.BOOKED); // Update the status of the car
+            if (carEntity.getStatus().equals(CarStatus.AVAILABLE)) {
+                carEntity.setStatus(CarStatus.BOOKED); // Update the status of the car
                 carEntity.setAvailable(false);
                 reservation.setReservedBy(userEntity.get().getFirstName());
                 reservation.setCarEntity(carEntity);

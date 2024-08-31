@@ -6,6 +6,7 @@ import com.car_rental_managment_app.exceptions.BranchNotFoundException;
 import com.car_rental_managment_app.repository.BranchRepository;
 import com.car_rental_managment_app.repository.RentalRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class BranchService {
         }
     }
 
+    @Transactional
     public BranchEntity updateBranch(Long branchId, BranchEntity branch) {
         try {
             Optional<BranchEntity> branchEntity = branchRepository.findById(branchId);
@@ -46,7 +48,6 @@ public class BranchService {
                 updatedBranch.setAddress(branch.getAddress());
                 updatedBranch.setCity(branch.getCity());
                 updatedBranch.setRevenue(branch.getRevenue());
-                updatedBranch.setRentalEntity(branch.getRentalEntity());
                 updatedBranch.setCarEntities(branch.getCarEntities());
                 return branchRepository.saveAndFlush(updatedBranch);
             } else {
