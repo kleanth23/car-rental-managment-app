@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +34,7 @@ public class CarEndpoint {
         return new ResponseEntity<>(returnedCar, HttpStatus.OK);
     }
 
-    @PutMapping("/updateCar/{carId}")
+    @PostMapping("/updateCar/{carId}")
     public ResponseEntity<CarEntity> updateCar(@PathVariable Long carId, @RequestBody CarEntity car) {
         CarEntity updateCar = carService.updateCar(car, carId);
         return new ResponseEntity<>(updateCar, HttpStatus.OK);

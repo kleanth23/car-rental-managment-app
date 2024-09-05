@@ -70,5 +70,6 @@ public class CarEntity {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
+    @JsonIgnore
     private ImageEntity image;
 }
